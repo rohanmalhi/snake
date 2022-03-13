@@ -3,6 +3,7 @@ from sys import exit
 
 import level
 from snake import Snake
+from fruit import Fruit
 
 # Pygame Setup
 pygame.init()
@@ -12,6 +13,7 @@ clock = pygame.time.Clock()
 
 background = level.Background(screen)
 snake = Snake(screen)
+fruit = Fruit(screen, snake)
 
 # Event Loop
 while True:
@@ -21,9 +23,11 @@ while True:
             exit()
             break
 
-    screen.fill((210, 180, 140))
-    background.generate()
-    snake.loop()
+    if snake.gameOver != True:
+        screen.fill((210, 180, 140))
+        background.generate()
+        snake.loop()
+        fruit.loop()
 
     pygame.display.update()
     clock.tick(60) # Caps framerate at 60
