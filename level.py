@@ -1,5 +1,5 @@
 import pygame
-class background():
+class Background():
     def __init__(self, screen):
         self.screen = screen
         self.tileSize = 64
