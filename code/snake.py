@@ -1,7 +1,7 @@
 import pygame
 from copy import deepcopy
 
-# TODO Collision
+from leng import leng
 
 class Snake():
     def __init__(self, screen):
@@ -10,16 +10,19 @@ class Snake():
         self.oldPartsList = self.partsList
         self.snakeLength = 4
 
+        self.deathSound = pygame.mixer.Sound('..\sounds\death.wav')
+
         self.gameOver = False
 
         self.moveIndex = 0
         self.direction = 'right'
 
-        self.headSurface = pygame.transform.rotate(pygame.image.load('graphics\head.png'), -90)
+        self.headSurface = pygame.transform.rotate(pygame.image.load('../graphics\head.png'), -90)
         self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64))
-        self.bodySurface = pygame.image.load(r'graphics\body.png')
+        self.bodySurface = pygame.image.load(r'../graphics\body.png')
         self.bodyRect = self.bodySurface.get_rect(topleft = (0, 0))
-        self.tailSurface = pygame.image.load('graphics/tail.png')
+        self.tailSurface = pygame.image.load('../graphics/tail.png')
+        
 
     def render(self):
         for item in self.partsList.keys():
@@ -68,25 +71,39 @@ class Snake():
                 if item == 'head':
                     if self.direction == 'right':
                         self.partsList['head'][0] += 1
-                        self.headSurface = pygame.transform.rotate(pygame.image.load('graphics\head.png'), -90)
+                        self.headSurface = pygame.transform.rotate(pygame.image.load('../graphics\head.png'), -90)
                         self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64))
                     elif self.direction == 'up':
                         self.partsList['head'][1] -= 1
-                        self.headSurface = pygame.image.load('graphics/head.png')
+                        self.headSurface = pygame.image.load('../graphics/head.png')
                         self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64))
                     elif self.direction == 'down':
                         self.partsList['head'][1] += 1
-                        self.headSurface = pygame.transform.rotate(pygame.image.load('graphics\head.png'), 180)
+                        self.headSurface = pygame.transform.rotate(pygame.image.load('..\graphics\head.png'), 180)
                         self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64))
                     else:
                         self.partsList['head'][0] -= 1
-                        self.headSurface = pygame.transform.rotate(pygame.image.load('graphics\head.png'), 90)
+                        self.headSurface = pygame.transform.rotate(pygame.image.load('..\graphics\head.png'), 90)
                         self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64))
                 if item[0] == 'b':
-                    if item[4] == '1':
+                    if item[4] == '1' and leng(item) == 5:
                         self.partsList[item] = self.oldPartsList['head']
                     else:
-                        self.partsList[item] = self.oldPartsList[f'body{int(item[4]) - 1}']
+                        if leng(item) == 5:
+                            self.partsList[item] = self.oldPartsList[f'body{int(item[4]) - 1}']
+                        elif leng(item) == 6:
+                             self.partsList[item] = self.oldPartsList[f'body{int(item[4] + item[5]) - 1}']
+                        elif leng(item) == 7:
+                             self.partsList[item] = self.oldPartsList[f'body{int(item[4] + item[5] + item[6]) - 1}']
+
+    def collision(self):
+        for body in self.partsList:
+            if self.partsList[body] == self.partsList['head'] and body != 'head':
+                self.gameOver = True
+                self.deathSound.play()
+        if (self.partsList['head'][0] < 0 or self.partsList['head'][0] > 15) or (self.partsList['head'][1] < 0 or self.partsList['head'][1] > 15):
+            self.gameOver = True
+            self.deathSound.play()
                         
 
 
@@ -94,6 +111,7 @@ class Snake():
         self.input()
         self.move()
         self.render()
+        self.collision()
 
 
     

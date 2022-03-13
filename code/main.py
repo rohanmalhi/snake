@@ -14,6 +14,9 @@ clock = pygame.time.Clock()
 background = level.Background(screen)
 snake = Snake(screen)
 fruit = Fruit(screen, snake)
+font = pygame.font.Font('..\graphics\Pixeltype.ttf', 50)
+fontSurface = font.render(f'{fruit.score}', False, 'white')
+fontRect = fontSurface.get_rect(center = (480, 32))
 
 # Event Loop
 while True:
@@ -28,9 +31,10 @@ while True:
         background.generate()
         snake.loop()
         fruit.loop()
+        fontSurface = font.render(f'{fruit.score}', False, 'white')
+        screen.blit(fontSurface, fontRect)
+    else:
+        screen.blit(snake.headSurface, (snake.partsList['body1'][0] * 64, snake.partsList['body1'][1] * 64))
 
     pygame.display.update()
     clock.tick(60) # Caps framerate at 60
-
-# TODO Fruit
-# TODO Snake
