@@ -1,4 +1,4 @@
 # Snake
 It's snake.
 
-Made in PyGame
+Programmed with Python and PyGame, graphics are made in LibreSprite
