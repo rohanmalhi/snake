@@ -101,7 +101,7 @@ class Snake():
             if self.partsList[body] == self.partsList['head'] and body != 'head':
                 self.gameOver = True
                 self.deathSound.play()
-        if (self.partsList['head'][0] < 0 or self.partsList['head'][0] > 15) or (self.partsList['head'][1] < 0 or self.partsList['head'][1] > 15):
+        if (self.partsList['head'][0] < 0 or self.partsList['head'][0] > 14) or (self.partsList['head'][1] < 0 or self.partsList['head'][1] > 15):
             self.gameOver = True
             self.deathSound.play()
                         
