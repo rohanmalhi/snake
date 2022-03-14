@@ -18,11 +18,11 @@ class Snake():
         self.direction = 'right'
 
         self.headSurface = pygame.transform.rotate(pygame.image.load('../graphics\head.png'), -90)
-        self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64))
+        self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64 + 64))
         self.bodySurface = pygame.image.load(r'../graphics\body.png')
         self.bodyRect = self.bodySurface.get_rect(topleft = (0, 0))
         self.tailSurface = pygame.image.load('../graphics/tail.png')
-        
+        self.deadSurface = pygame.image.load('../graphics/dead.png')
 
     def render(self):
         for item in self.partsList.keys():
@@ -34,17 +34,17 @@ class Snake():
             elif item[0] == 'b' and item.index != self.snakeLength:
                 if self.direction == 'down' or self.direction =='up':
                     if self.partsList[item][0] == self.partsList['head'][0]:
-                        self.bodyRect.topleft = (self.partsList[item][0] * 64, self.partsList[item][1] * 64)
+                        self.bodyRect.topleft = (self.partsList[item][0] * 64, self.partsList[item][1] * 64 + 64)
                         self.screen.blit(pygame.transform.rotate(self.bodySurface, 90), self.bodyRect)
                     else:
-                        self.bodyRect.topleft = (self.partsList[item][0] * 64, self.partsList[item][1] * 64)
+                        self.bodyRect.topleft = (self.partsList[item][0] * 64, self.partsList[item][1] * 64 + 64)
                         self.screen.blit(self.bodySurface, self.bodyRect)
                 elif self.direction =='right' or self.direction == 'left':
                     if self.partsList[item][1] == self.partsList['head'][1]:
-                        self.bodyRect.topleft = (self.partsList[item][0] * 64, self.partsList[item][1] * 64)
+                        self.bodyRect.topleft = (self.partsList[item][0] * 64, self.partsList[item][1] * 64 + 64)
                         self.screen.blit(self.bodySurface, self.bodyRect)
                     else:
-                        self.bodyRect.topleft = (self.partsList[item][0] * 64, self.partsList[item][1] * 64)
+                        self.bodyRect.topleft = (self.partsList[item][0] * 64, self.partsList[item][1] * 64 + 64)
                         self.screen.blit(pygame.transform.rotate(self.bodySurface, 90), self.bodyRect)
 
     def input(self):
@@ -72,19 +72,19 @@ class Snake():
                     if self.direction == 'right':
                         self.partsList['head'][0] += 1
                         self.headSurface = pygame.transform.rotate(pygame.image.load('../graphics\head.png'), -90)
-                        self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64))
+                        self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64 + 64))
                     elif self.direction == 'up':
                         self.partsList['head'][1] -= 1
                         self.headSurface = pygame.image.load('../graphics/head.png')
-                        self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64))
+                        self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64 + 64))
                     elif self.direction == 'down':
                         self.partsList['head'][1] += 1
                         self.headSurface = pygame.transform.rotate(pygame.image.load('..\graphics\head.png'), 180)
-                        self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64))
+                        self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64 + 64))
                     else:
                         self.partsList['head'][0] -= 1
                         self.headSurface = pygame.transform.rotate(pygame.image.load('..\graphics\head.png'), 90)
-                        self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64))
+                        self.headRect = self.headSurface.get_rect(topleft = (self.partsList['head'][0] * 64, self.partsList['head'][1] * 64 + 64))
                 if item[0] == 'b':
                     if item[4] == '1' and leng(item) == 5:
                         self.partsList[item] = self.oldPartsList['head']

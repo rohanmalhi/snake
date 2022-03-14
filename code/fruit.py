@@ -7,7 +7,7 @@ class Fruit():
         self.snake = snake
         self.coords = [10, 8]
         self.surface = pygame.image.load('../graphics/fruit.png')
-        self.rect = self.surface.get_rect(topleft = (self.coords[0] * 64, self.coords[1] * 64))
+        self.rect = self.surface.get_rect(topleft = (self.coords[0] * 64, self.coords[1] * 64 + 64))
         self.score = 0
         self.goodLocation = False
         self.collectSound = pygame.mixer.Sound('../sounds/fruit.wav')
@@ -19,7 +19,7 @@ class Fruit():
             for part in self.snake.partsList.keys():
                 if self.coords == self.snake.partsList[part]:
                     self.goodLocation = False
-        self.rect = self.surface.get_rect(topleft = (self.coords[0] * 64, self.coords[1] * 64))
+        self.rect = self.surface.get_rect(topleft = (self.coords[0] * 64, self.coords[1] * 64 + 64))
 
     def collision(self):
         self.goodLocation = False
